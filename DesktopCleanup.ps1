@@ -76,14 +76,10 @@ $_.name -match '.wmv$'
 }
 
 if (!(@(ls)[0] -eq $null) -and !(Test-Path AutoOrganized)) {
-	echo yay
 	mkdir AutoOrganized
 }
 
 foreach ($type in $arr_types) { 
-	Write-Host '----------------'
-	Write-Host "  $type      "
-	Write-Host '----------------'
 	$currtype = get-variable $type
 	$isNotEmpty = !(@(($currtype).value)[0] -eq $null)
 	if ($isNotEmpty) {
@@ -96,32 +92,13 @@ foreach ($type in $arr_types) {
 
 # now pick up any files left
 
-$etc = ls | where {
-$_.name -ne 'AutoOrganized'
-}
+$etc = ls | where { $_.name -ne 'AutoOrganized' }
+
 if (!(@($etc)[0] -eq $null)) {
 	if(!(Test-Path "AutoOrganized\Etc")) { mkdir "AutoOrganized\Etc" }
-	Write-Host '----------------'
-	Write-Host "  Etc      "
-	Write-Host '----------------'
 	foreach ($file in $etc) {
 		mv $file "AutoOrganized\Etc"
 	}
 }
-
-# move the Folders
-#Get-ChildItem | where {$_.psIsContainer -eq 1} | ForEach-Object {mv $_.name Folders}
-
-# move documents
-# this includes pdf, word, excel, powerpoint and text files
-#Get-ChildItem | where {$_.name -match '*.pdf'} | ForEach-Object {mv $_.name Docs}
-#Get-ChildItem | where {$_.name -match '*.doc*'} | ForEach-Object {mv $_.name Docs}
-#Get-ChildItem | where {$_.name -match '*.xls*'} | ForEach-Object {mv $_.name Docs}
-#Get-ChildItem | where {$_.name -match '*.ppt*'} | ForEach-Object {mv $_.name Docs}
-#Get-ChildItem | where {$_.name -match '*.txt*'} | ForEach-Object {mv $_.name Docs}
-
-# move Images
-# includes jpg, jpeg, png, gif
-#Get-ChildItem | where {$_.name -match '*.jp*g'} | ForEach-Object {mv $_.name Folders}
 
 Set-Location ${env:USERPROFILE}\Desktop
