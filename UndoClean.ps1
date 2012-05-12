@@ -1,4 +1,5 @@
-Set-Location ${env:USERPROFILE}\Desktop\
+$origLoc = Get-Location
+cd ${env:USERPROFILE}\Desktop\
 if (!(Test-Path AutoOrganized)) { exit }
 cd AutoOrganized
 foreach ($subfolder in Get-ChildItem) {
@@ -8,3 +9,6 @@ foreach ($subfolder in Get-ChildItem) {
 	}
 	cd ..
 }
+cd ${env:USERPROFILE}\Desktop\
+rm -r AutoOrganized
+cd $origLoc
